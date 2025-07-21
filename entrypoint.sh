@@ -135,21 +135,7 @@ function build_and_push() {
   echo "Executing Nixpacks build command:"
   echo "$build_cmd"
 
-  # Capture the output to prevent image ID from being executed as command
-  BUILD_OUTPUT=$(eval "$build_cmd" 2>&1)
-  BUILD_EXIT_CODE=$?
-  
-  if [ $BUILD_EXIT_CODE -eq 0 ]; then
-    echo "✅ Nixpacks build completed successfully"
-    # Only show the last line if it looks like an image ID
-    if [[ "$BUILD_OUTPUT" =~ [a-f0-9]{64} ]]; then
-      echo "Built image ID: $(echo "$BUILD_OUTPUT" | tail -1)"
-    fi
-  else
-    echo "❌ Nixpacks build failed:"
-    echo "$BUILD_OUTPUT"
-    exit $BUILD_EXIT_CODE
-  fi
+  eval "$build_cmd"
 
   # Conditionally push the images based on the 'push' input
   if [[ "$INPUT_PUSH" == "true" ]]; then
@@ -179,21 +165,7 @@ function build_and_push_multiple_architectures() {
     echo "Executing Nixpacks build command for $platform:"
     echo "$build_cmd"
 
-    # Capture the output to prevent image ID from being executed as command
-    BUILD_OUTPUT=$(eval "$build_cmd" 2>&1)
-    BUILD_EXIT_CODE=$?
-    
-    if [ $BUILD_EXIT_CODE -eq 0 ]; then
-      echo "✅ Nixpacks build completed successfully for $platform"
-      # Only show the last line if it looks like an image ID
-      if [[ "$BUILD_OUTPUT" =~ [a-f0-9]{64} ]]; then
-        echo "Built image ID for $platform: $(echo "$BUILD_OUTPUT" | tail -1)"
-      fi
-    else
-      echo "❌ Nixpacks build failed for $platform:"
-      echo "$BUILD_OUTPUT"
-      exit $BUILD_EXIT_CODE
-    fi
+    eval "$build_cmd"
 
     manifest_list+=("$architecture_image_name")
   done
