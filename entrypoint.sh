@@ -135,7 +135,7 @@ function build_and_push() {
   echo "Executing Nixpacks build command:"
   echo "$build_cmd"
 
-  eval "$build_cmd"
+  eval "$build_cmd" > /dev/null
 
   # Conditionally push the images based on the 'push' input
   if [[ "$INPUT_PUSH" == "true" ]]; then
@@ -165,7 +165,7 @@ function build_and_push_multiple_architectures() {
     echo "Executing Nixpacks build command for $platform:"
     echo "$build_cmd"
 
-    eval "$build_cmd"
+    eval "$build_cmd" > /dev/null
 
     manifest_list+=("$architecture_image_name")
   done
