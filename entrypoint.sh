@@ -103,14 +103,15 @@ if [ -n "${INPUT_APT}" ]; then
 fi
 
 # Include environment variables in the build command
-if [ -n "${INPUT_ENV}" ]; then
-  readarray -t ENVS <<<"$INPUT_ENV"
-  for env_var in "${ENVS[@]}"; do
-    if [ -n "${env_var}" ]; then
-      BUILD_CMD="$BUILD_CMD --env $env_var"
-    fi
-  done
-fi
+# if [ -n "${INPUT_ENV}" ]; then
+#   readarray -t ENVS <<<"$INPUT_ENV"
+#   for env_var in "${ENVS[@]}"; do
+#     if [ -n "${env_var}" ]; then
+#       BUILD_CMD="$BUILD_CMD --env $env_var"
+#     fi
+#   done
+# fi
+BUILD_CMD="$BUILD_CMD --env CONVEX_SELF_HOSTED_ADMIN_KEY=self-hosted-convex|014166a4832020e47fba2fad1766d83b72288328e586a5201858cdd75bdb2a48287891fd19635072450b3cacfb97b38b88,CONVEX_SELF_HOSTED_URL=https://convex.quickbillsplit.com"
 
 if [ -n "${INPUT_PLATFORMS}" ]; then
   read -ra PLATFORMS <<<"$(echo "$INPUT_PLATFORMS" | tr ',\n' ' ')"
